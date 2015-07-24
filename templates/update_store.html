@@ -1,0 +1,162 @@
+<html>
+<meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<link rel="stylesheet" type="text/css" href="/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/foundation.min.css">
+	<link rel="stylesheet" type="text/css" href="/foundation-icons.eot">
+  	<link rel="stylesheet" type="text/css" href="/foundation-icons.css">
+  	<link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+		.panel {
+			margin-top: 30px;
+		}
+		body {
+			background: #e8e8e8;
+		}
+		.name, .price, .number, .button, label, select, th, h3 {
+			font-family: 'Fredoka One', cursive;
+		}
+
+		.number {
+			font-size: 300%;
+		}
+
+		.accordion .accordion-navigation>a, .accordion dd>a {
+			font-family: 'Fredoka One', cursive;
+		}
+
+		.tabs dd.active a, .tabs .tab-title a {
+			font-family: 'Fredoka One', cursive;
+		}
+	</style>
+	<body>
+		<nav class="top-bar" data-topbar role="navigation">
+              <ul class="title-area">
+                <li class="name">
+                  <h1><a href="/"><i class="fi-home"></i> estore.com</a></h1>
+                </li>
+                 <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+              </ul>
+            <section class="top-bar-section">
+	            <!-- Right Nav Section -->
+	            <ul class="right">
+	              <li class="has-dropdown">
+	                <a href=""><i class="fi-widget"></i> Menu </a>
+	                <ul class="dropdown">
+	                  <li><a href="/settings"><i class="fi-wrench"></i> Settings</a></li>
+	                  <li><a href="/logout"><i class="fi-minus"></i> Logout</a></li>
+	                </ul>
+	              </li>
+	            </ul>
+	          </section>
+        </nav>
+		<div class="row">
+			<div class="large-12 columns">
+				<div class="panel store_update">
+					<form id="store_update_form" method="post">
+					    <div class="panel store">
+					      <h3>Update Store Info</h3>
+					      <hr>
+						  <div class="row">
+						    <div class="large-12 columns">
+						      <label>Store Name
+						        <input id="name" type="text" name="name" placeholder="" required/>
+						      </label>
+						    </div>
+						  </div>
+
+						  <div class="row">
+						    <div class="large-12 columns">
+						      <label>Address
+						        <input id="address" type="text" name="address" placeholder="" required/>
+						      </label>
+						    </div>
+						  </div>
+
+						  <div class="row">
+						    <div class="large-12 columns">
+						      <label>Phone
+						        <input id="phone" type="text" name="phone" placeholder="" required/>
+						      </label>
+						    </div>
+						  </div>
+
+						   <div class="row">
+						    <div class="large-12 columns">
+						        <input type="submit" name="submit" value="Submit" class="button primary expand radius"/>
+						    </div>
+						  </div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="/foundation.min.js"></script>
+	<script type="text/javascript">
+		$(document).foundation();
+		$("form").attr("action", "/update/store/"+location.pathname.split('/')[3]);
+		$.ajax({
+        	type:'GET',
+            url:'/store/'+location.pathname.split('/')[3],
+            success:function(Item, textStatus){
+            	var store = '';
+				if(Item.status==="OK"){
+					$("#name").attr('value', Item.msg[0].name);
+					$("#address").attr('value', Item.msg[0].address);
+					$("#phone").attr('value', Item.msg[0].phone);
+				}
+			},
+			error:function(res){
+			}
+		});
+
+
+		$('#store_update_form').on('submit', function(e) {
+                        e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
+                 
+                        var $this = $(this); // L'objet jQuery du formulaire
+                 
+                        var store_name = $('#name').val();
+                        var store_address = $('#address').val();
+                        var store_phone = $("#phone").val();
+                 
+                        // Je vérifie une première fois pour ne pas lancer la requête HTTP
+                        // si je sais que mon PHP renverra une erreur
+                        if(store_name === '' || store_address === '' || store_phone === '') {
+                            alert('Les champs doivent êtres remplis');
+                        } else {
+                            // Envoi de la requête HTTP en mode asynchrone
+                            $.ajax({
+                                url: $this.attr('action'), // Le nom du fichier indiqué dans le formulaire
+                                type: $this.attr('method'), // La méthode indiquée dans le formulaire (get ou post)
+                                data: $this.serialize(), // Je sérialise les données (j'envoie toutes les valeurs présentes dans le formulaire)
+                                success: function(res) {
+                                	console.dir(res); 
+                                    if(res.status==="ERR"){
+										var div = '<div data-alert class="alert-box alert radius"> Error Updating Store'+
+                          				'<a href="#" class="close">&times;</a>'+
+                          				'</div>'                                        
+                                        $('.panel.store').prepend(div);
+                                    }else {
+                                        var div = '<div data-alert class="alert-box success radius"> Store Updated'+
+                          				'<a href="#" class="close">&times;</a>'+
+                          				'</div>'                                        
+                                        $('.panel.store').prepend(div);
+
+                                        // clean store form
+                                    }
+                                },
+                                error:function(res, status){
+                                        // dans le cas ou ajax fail
+                                }
+                            });
+                        }
+                    }); 
+	</script>
+</html>

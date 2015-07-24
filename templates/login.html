@@ -1,0 +1,97 @@
+<html>
+<meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<link rel="stylesheet" type="text/css" href="/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/foundation.min.css">
+	<link rel="stylesheet" type="text/css" href="/foundation-icons.eot">
+  	<link rel="stylesheet" type="text/css" href="/foundation-icons.css">
+	<style type="text/css">
+		.panel {
+			margin-top: 200px;
+		}
+		body {
+			background: #e8e8e8;
+		}
+	</style>
+	<body>
+		<nav class="top-bar" data-topbar role="navigation">
+              <ul class="title-area">
+                <li class="name">
+                  <h1><a href="/"><i class="fi-home"></i> estore.com</a></h1>
+                </li>
+                 <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+              </ul>
+
+            </nav>
+		<div class="row">
+			<div class="large-12 columns">
+				<div class="panel login">
+					<form id="login_form" action="" method="post">
+					  <div class="row">
+					    <div class="large-12 columns">
+					      <label>Name
+					        <input id="username" type="text" name="username" placeholder="Username" />
+					      </label>
+
+					      <label>Password
+					        <input id="password" type="password" name="password" placeholder="Password" />
+					      </label>
+					      <hr>
+					      <input type="submit" value="Login" class="tiny button radius expand"/>
+					    </div>
+					  </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="/foundation.min.js"></script>
+	<script type="text/javascript">
+		$(document).foundation();
+		$('#login_form').on('submit', function(e) {
+                        e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
+                 
+                        var $this = $(this); // L'objet jQuery du formulaire
+                 
+                        var username = $('#username').val();
+                        var password = $('#password').val();
+                 
+                        // Je vérifie une première fois pour ne pas lancer la requête HTTP
+                        // si je sais que mon PHP renverra une erreur
+                        if(password === '' || username === '') {
+                            alert('Les champs doivent êtres remplis');
+                        } else {
+                            // Envoi de la requête HTTP en mode asynchrone
+                            $.ajax({
+                                url: '/login', // Le nom du fichier indiqué dans le formulaire
+                                type: $this.attr('method'), // La méthode indiquée dans le formulaire (get ou post)
+                                data: $this.serialize(), // Je sérialise les données (j'envoie toutes les valeurs présentes dans le formulaire)
+                                success: function(res) {
+                                	console.dir(res); 
+                                    if(res.status==="ERR"){
+										              var div = '<div data-alert class="alert-box alert radius"> Inalide Username Or Password'+
+                          				'<a href="#" class="close">&times;</a>'+
+                          				'</div>'                                        
+                                  $('.panel.login').prepend(div);
+                                    }else {
+                                    	// jquery Redirect /
+                                      window.location.replace("/");
+                                    }
+                                },
+                                error:function(res, status){
+                                  // dans le cas ou ajax fail
+                                       var div = '<div data-alert class="alert-box alert radius"> Error'+
+                                  '<a href="#" class="close">&times;</a>'+
+                                  '</div>'                                        
+                                  $('.panel.login').prepend(div);
+                                }
+                            });
+                        }
+                    });    
+	</script>
+</html>

@@ -1,0 +1,326 @@
+<html>
+<meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+	<link rel="stylesheet" type="text/css" href="/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/foundation.min.css">
+	<link rel="stylesheet" type="text/css" href="/foundation-icons.eot">
+  	<link rel="stylesheet" type="text/css" href="/foundation-icons.css">
+  	<link type="text/css" media="screen" rel="stylesheet" href="/responsive-tables.css" />
+  	<link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+		.panel {
+			margin-top: 30px;
+		}
+		body {
+			background: #e8e8e8;
+		}
+		.name, .price, .number, .button, label, select, th, p {
+			font-family: 'Fredoka One', cursive;
+		}
+
+		.number {
+			font-size: 300%;
+		}
+
+		.accordion .accordion-navigation>a, .accordion dd>a {
+			font-family: 'Fredoka One', cursive;
+		}
+
+		.tabs dd.active a, .tabs .tab-title a {
+			font-family: 'Fredoka One', cursive;
+		}
+	</style>
+	<body>
+		<nav class="top-bar" data-topbar role="navigation">
+              <ul class="title-area">
+                <li class="name">
+                  <h1><a href="/"><i class="fi-home"></i> estore.com</a></h1>
+                </li>
+                 <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+              </ul>
+            <section class="top-bar-section">
+	            <!-- Right Nav Section -->
+	            <ul class="right">
+	              <li class="has-dropdown">
+	                <a href=""><i class="fi-widget"></i> Menu </a>
+	                <ul class="dropdown">
+	                  <li><a href="/settings"><i class="fi-wrench"></i> Settings</a></li>
+	                  <li><a href="/logout"><i class="fi-minus"></i> Logout</a></li>
+	                </ul>
+	              </li>
+	            </ul>
+	          </section>
+        </nav>
+		<div class="row">
+			<div class="large-12 columns">
+				<div class="panel">
+					<ul class="accordion" data-accordion>
+					  <li class="accordion-navigation">
+					    <a href="#panel1a">User Info</a>
+					    <div id="panel1a" class="content">
+					      <form id="user_form" action="" method="post">
+						    <div class="panel user">
+						      <div class="row">
+							    <div class="large-12 columns">
+							      <label>Full Name
+							        <input id="full_name" type="text" name="name" placeholder="" required/>
+							      </label>
+							    </div>
+							  </div>
+
+							  <div class="row">
+							    <div class="large-12 columns">
+							      <label>Username
+							        <input id="username" type="text" name="username" placeholder="" required/>
+							      </label>
+							    </div>
+							  </div>
+
+							  <div class="row">
+							    <div class="large-12 columns">
+							      <label>Address
+							        <input id="address" type="text" name="address" placeholder="" required/>
+							      </label>
+							    </div>
+							  </div>
+
+							  <div class="row">
+							    <div class="large-12 columns">
+							      <label>Phone
+							        <input id="phone" type="text" name="phone" placeholder="" required/>
+							      </label>
+							    </div>
+							  </div>
+
+							   <div class="row">
+							    <div class="large-12 columns">
+							        <input type="submit" name="submit" value="Submit" class="button primary expand radius"/>
+							    </div>
+							  </div>
+							</div>
+							</form>
+					    </div>
+					  </li>
+					  <li class="accordion-navigation">
+					    <a href="#panel2a">Password Update</a>
+					    <div id="panel2a" class="content">
+					    	<form action="/update/password" method="post">
+						    <div class="panel">
+						      <div class="row">
+							    <div class="large-12 columns">
+							      <label>Old Password
+							        <input id="old_password" type="password" name="old_password" placeholder="" />
+							      </label>
+							    </div>
+							  </div>
+
+							  <div class="row">
+							    <div class="large-12 columns">
+							      <label>Password
+							        <input id="password" type="password" name="password" placeholder="" />
+							      </label>
+							    </div>
+							  </div>
+
+							  <div class="row">
+							    <div class="large-12 columns">
+							   		<label>Repeat Password
+							        	<input id="password1" type="password" name="password1" placeholder="" />
+							    	</label>
+							    </div>
+							  </div>
+
+							  <div class="row">
+							    <div class="large-12 columns">
+							      <label>Show Password <br>
+							        <input id="checkbox" type="checkbox" name="address" placeholder="" />
+							      </label>
+							    </div>
+							  </div>
+
+							   <div class="row">
+							    <div class="large-12 columns">
+							        <input type="submit" name="submit" value="Update Password" class="button primary expand radius"/>
+							    </div>
+							  </div>
+							</div>
+							</form>
+					    </div>
+					  </li>
+					  <li class="accordion-navigation">
+					    <a href="#panel2b">Stores Info</a>
+					    <div id="panel2b" class="content">
+					    	<div class="row">
+							    <div class="large-12 columns">
+							  		<input id="checkbox_table" type="checkbox" checked="checked" placeholder="" />
+							  		Enable/Disable Delete/Update
+							    </div>
+							</div>
+
+					    	<table class="responsive" >
+								  <thead>
+								    <tr>
+								      <th width="150">Name</th>
+								      <th width="150">Address</th>
+								      <th width="200">Phone</th>
+								      <th width="200">Update</th>
+								      <th witdh="200">Delete</th>
+								    </tr>
+								  </thead>
+								  <tbody id="store_list">
+								  </tbody>
+							</table>
+					    </div>
+					  </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="/foundation.min.js"></script>
+	<script type="text/javascript" src="responsive-tables.js"></script>
+	<script type="text/javascript">
+		$(document).foundation();
+		var list_array = [];
+		function del(obj){
+			$.ajax({
+	        	type:'GET',
+	            url:'/delete/store/'+obj.id.split('_')[1],
+	            success:function(Item, textStatus){
+	            	var store = '';
+					if(Item.status==="OK"){
+						$('#tr_'+obj.id.split('_')[1]).remove();
+						// show success msg
+					}else {
+						//error msg
+						console.dir(Item);
+						var div = '<div data-alert class="alert-box alert radius"> Error Deleting Store'+
+                          				'<a href="#" class="close">&times;</a>'+
+                          				'</div>'                                        
+                        $('#panel2b').prepend(div);
+					}
+				},
+				error:function(res){
+					console.dir(Item);
+					var div = '<div data-alert class="alert-box alert radius"> Error'+
+                          				'<a href="#" class="close">&times;</a>'+
+                          				'</div>'                                        
+                       $('#panel2b').prepend(div);
+				}
+			});			
+		}
+		$.ajax({
+        	type:'GET',
+            url:'/stores',
+            success:function(Item, textStatus){
+            	var store = '';
+				if(Item.status==="OK"){
+					for(var i=0;i<Item.msg.length;i++){
+						store+='<tr id="tr_'+Item.msg[i].uuid+'" >'+
+								      '<td><p>'+Item.msg[i].name+'</p></td>'+
+								      '<td><p>'+Item.msg[i].address+'</p></td>'+
+								      '<td><p>'+Item.msg[i].phone+'</p></td>'+
+								      '<td>'+
+								     	'<a href="/update/store/'+Item.msg[i].uuid+'" id="update_'+Item.msg[i].uuid+'" class="button tiny secondary radius">Update</a>'+
+								      '</td>'+
+								      '<td>'+
+								      	'<a href="#" id="delete_'+Item.msg[i].uuid+'" class="button tiny alert radius disabled" onclick="del(this);" >Delete</a>'+
+								      '</td>'+
+								    '</tr>';
+						list_array.push(Item.msg[i].uuid);
+					}
+				}
+				$('#store_list').append(store);
+			},
+			error:function(res){
+			}
+		});
+		$.ajax({
+        	type:'GET',
+            url:'/users/info',
+            success:function(Item, textStatus){
+            	var store = '';
+				if(Item.status==="OK"){
+					$("#full_name").attr('value', Item.msg[0].name);
+					$("#address").attr('value', Item.msg[0].address);
+					$("#username").attr('value', Item.msg[0].username);
+					$("#email").attr('value', Item.msg[0].email);
+					$("#phone").attr('value', Item.msg[0].phone);
+				}
+				$('#store_list').append(store);
+			},
+			error:function(res){
+			}
+		});
+
+		$("#checkbox").change(function(){
+			if(this.checked){
+				$("#old_password").attr('type', "text");
+				$("#password").attr('type', "text");
+				$("#password1").attr('type', "text");
+			}else {
+				$("#old_password").attr('type', "password");
+				$("#password").attr('type', "password");
+				$("#password1").attr('type', "password");
+			}
+		});
+
+		$("#checkbox_table").change(function(){
+			if(this.checked){
+				for(var i=0;i<list_array.length;i++){
+					$("a#delete_"+list_array[i]).addClass("disabled");
+					//$("a#delete_"+list_array[i]).preventDefault();
+				}
+			}else {
+				for(var i=0;i<list_array.length;i++){
+					$("a#delete_"+list_array[i]).removeClass("disabled");
+					//$("a#delete_"+list_array[i]).preventDefault();
+				}
+			}
+		});
+		$('#user_form').on('submit', function(e) {
+                        e.preventDefault(); // J'empêche le comportement par défaut du navigateur, c-à-d de soumettre le formulaire
+                 
+                        var $this = $(this); // L'objet jQuery du formulaire
+                 
+                        var full_name = $('#full_name').val();
+                        var username = $('#username').val();
+                        var address = $("#address").val();
+                        var phone = $("#phone").val();
+                 
+                        // Je vérifie une première fois pour ne pas lancer la requête HTTP
+                        // si je sais que mon PHP renverra une erreur
+                        if(full_name === '' || username === '' || address === '' || phone === '') {
+                            alert('Les champs doivent êtres remplis');
+                        } else {
+                            // Envoi de la requête HTTP en mode asynchrone
+                            $.ajax({
+                                url: '/update/user', // Le nom du fichier indiqué dans le formulaire
+                                type: $this.attr('method'), // La méthode indiquée dans le formulaire (get ou post)
+                                data: $this.serialize(), // Je sérialise les données (j'envoie toutes les valeurs présentes dans le formulaire)
+                                success: function(res) { 
+                                    if(res.status==="ERR"){
+										var div = '<div data-alert class="alert-box alert radius"> Error Updating User Info'+
+                          				'<a href="#" class="close">&times;</a>'+
+                          				'</div>'                                        
+                                        $('.panel.user').prepend(div);
+                                    }else {
+                                        var div = '<div data-alert class="alert-box success radius"> User Info Updated'+
+                          				'<a href="#" class="close">&times;</a>'+
+                          				'</div>'                                        
+                                        $('.panel.user').prepend(div);
+                                    }
+                                },
+                                error:function(res, status){
+                                        // dans le cas ou ajax fail
+                                }
+                            });
+                        }
+                    });
+	</script>
+</html>
