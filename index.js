@@ -278,7 +278,6 @@ app.post('/update/store/:uuid', function(req, res){
 	if(!req.session.name){
 		res.redirect('/login');
 	}else {
-		console.dir(req.body);
 		var query = 'update stores inner join users on stores.users_uuid=users.uuid and users.uuid=? set stores.name=?, stores.address=?, stores.phone=?, stores.updated=? where stores.uuid=?';
 		if(req.body.name!=undefined && req.body.address!=undefined && req.body.phone!=undefined && req.params.uuid!=""){
 			mysqlConnection.query(query, [req.session.uuid, req.body.name, req.body.address, req.body.phone, new Date(), req.params.uuid], function(err, insert_res){
@@ -357,9 +356,10 @@ app.post('/update/products/:uuid', function(req, res){
 							    						if(fields.name!="" && fields.price!="" && 
 							    							fields.currency!="" && fields.number!="" && fields.store!=""){
 							    							// a revoire avec inner join
-							    							var query = 'update products set name=?, price=?, currency=?, image=?, type=?, size=?, number=?, updated=? where uuid=?';
+							    							// var query = 'update products set name=?, price=?, currency=?, image=?, type=?, size=?, number=?, updated=? where uuid=?';
+															var query = 'update products inner join stores on products.stores_uuid=stores.uuid inner join users on stores.users_uuid=users.uuid set products.name=?, products.price=?, products.currency=?, products.image=?, products.type=?, products.size=?, products.number=?, products.updated=? where products.uuid=? and users.uuid=?';
 															var uuid = node_uuid.v1();
-															mysqlConnection.query(query, [fields.name, fields.price, fields.currency, blob, files.upload.type, files.upload.size, fields.number, new Date(), req.params.uuid], function(err, update_res){
+															mysqlConnection.query(query, [fields.name, fields.price, fields.currency, blob, files.upload.type, files.upload.size, fields.number, new Date(), req.params.uuid, req.session.uuid], function(err, update_res){
 																if(err){
 																	var msg = {
 																		status:"ERR",
@@ -396,10 +396,8 @@ app.post('/update/products/:uuid', function(req, res){
                                         });
 		    			}else {
 		    				// update inner join
-		    				console.log("pas dimage");
-		    				console.log(fields);
-		    				var query = 'update products set name=?, price=?, currency=?, type=?, size=?, number=?, updated=? where uuid=?';
-							mysqlConnection.query(query, [fields.name, fields.price, fields.currency, files.upload.type, files.upload.size, fields.number, new Date(), req.params.uuid], function(err, update_res){
+		    				var query = 'update products inner join stores on products.stores_uuid=stores.uuid inner join users on stores.users_uuid=users.uuid set products.name=?, products.price=?, products.currency=?, products.number=?, products.updated=? where products.uuid=? and users.uuid=?';
+							mysqlConnection.query(query, [fields.name, fields.price, fields.currency, fields.number, new Date(), req.params.uuid, req.session.uuid], function(err, update_res){
 								if(err){
 									var msg = {
 										status:"ERR",
@@ -408,10 +406,13 @@ app.post('/update/products/:uuid', function(req, res){
 									res.send(msg);
 									clean_temp(files.upload.path);
 								}else {
+									/*
 									var msg = {
 										status:"OK",
 										msg:update_res
 									}
+									*/
+									res.redirect('/');
 									res.send(msg);
 									clean_temp(files.upload.path);
 								}
@@ -547,7 +548,6 @@ app.post('/product', function(req, res){
 			    		};
 			    		res.send(msg);
 			    	}else {
-			    		//console.dir(fields);
 			    		///delete/store/console.dir(files);
 			    		validate_image(files.upload.type, function(err1){
 			    			if(err1){
@@ -830,7 +830,6 @@ app.get('/excel/:store_uuid', function(req, res){
 					};
 					res.send(msg);
 				}else {
-					console.dir(rows);
 					var data = [];
 					for(var i=0;i<rows.length;i++){
 						var instance = [];
@@ -842,7 +841,6 @@ app.get('/excel/:store_uuid', function(req, res){
 						instance.push(rows[i].store_name);
 						data.push(instance);
 					}			
-					console.dir(buffer);
 					var buffer = xlsx.build([{name: "mySheetName", data: data}]); // returns a buffer
 					res.setHeader('Content-Type', 'application/x-ms-excel');
 					res.end(buffer);

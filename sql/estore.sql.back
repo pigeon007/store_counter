@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `estore`.`stores` (
   CONSTRAINT `fk_stores_users`
     FOREIGN KEY (`users_uuid`)
     REFERENCES `estore`.`users` (`uuid`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `estore`.`products` (
   CONSTRAINT `fk_products_stores1`
     FOREIGN KEY (`stores_uuid`)
     REFERENCES `estore`.`stores` (`uuid`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
